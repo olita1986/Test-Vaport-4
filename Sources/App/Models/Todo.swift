@@ -17,3 +17,9 @@ final class Todo: Model, Content {
         self.title = title
     }
 }
+
+//extension Todo: Validatable {
+//    static func validations(_ validations: inout Validations) {
+//        validations.add("title", as: String.self, is: .email, required: true)
+//    }
+//}

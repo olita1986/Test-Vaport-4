@@ -6,12 +6,28 @@ func routes(_ app: Application) throws {
         return "It works!"
     }
 
-    app.get("hello") { req -> String in
-        return "Hello, world!"
+    app.get("hello") { req in
+        return Todo(id: 1, title: "hello")
     }
+    
+    app.get(":number") { req -> String in
+        guard let number = req.parameters.get("number", as: Int.self) else {
+            throw Abort.init(.badRequest)
+        }
+        return "Hola, tengo \(number) años"
+    }
+    
+    
 
+//    let todos = app.grouped("todos")
     let todoController = TodoController()
-    app.get("todos", use: todoController.index)
-    app.post("todos", use: todoController.create)
-    app.delete("todos", ":todoID", use: todoController.delete)
+//    todos.get(use: todoController.index)
+//    todos.post(use: todoController.create)
+//    todos.delete(":todoID", use: todoController.delete)
+    
+    try app.register(collection: todoController)
+    
+    
+    let heroController = HeroController()
+    try app.register(collection: heroController)
 }
